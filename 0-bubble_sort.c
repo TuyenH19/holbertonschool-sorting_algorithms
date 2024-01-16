@@ -3,11 +3,15 @@
  * bubble_sort - sort an array of integers in ascending order
  * @array: array input
  * @size: size of array
+ *
+ * Description: print the array after each swap of two elements
 */
 void bubble_sort(int *array, size_t size)
 {
 	size_t i, j, tmp = 0;
 
+	if (size < 2)
+		return;
 	for (i = 0; i < size; i++)
 	{
 		for (j = 0; j < size; j++)
