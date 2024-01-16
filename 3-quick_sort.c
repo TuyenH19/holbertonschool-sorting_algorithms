@@ -1,70 +1,71 @@
 #include "sort.h"
-
-void quick_sort_recursive(int *array, int low, int high);
-int lomuto_partition(int *array, int low, int high);
-
 /**
- * quick_sort - Sorts an array of integers in ascending order
- *              using the Quick sort algorithm
- * @array: The array to be sorted
- * @size: The number of elements in the array
- */
-
+  * quick_sort - quicksort algorithm
+  * @array: array to be sorted
+  * @size: size of array
+  */
 void quick_sort(int *array, size_t size)
 {
-	if (array == NULL || size < 2)
+	if (array == NULL || size <= 1)
 		return;
-
-	quick_sort_recursive(array, 0, size - 1);
+	sort_alg(array, 0, size - 1, size);
 }
 
 /**
- * quick_sort_recursive - Recursive function to sort the array
- * @array: The array to be sorted
- * @low: The lowest index of the partition
- * @high: The highest index of the partition
- */
-
-void quick_sort_recursive(int *array, int low, int high)
+  * sort_alg - recursive sorting algorithm
+  * @arr: array
+  * @left: leftmost index
+  * @right: rightmost index
+  * @size: full size of array
+  */
+void sort_alg(int *arr, int left, int right, size_t size)
 {
-	if (low < high)
-	{
-		int pivot_index = lomuto_partition(array, low, high);
+	int pivot;
 
-		quick_sort_recursive(array, low, pivot_index - 1);
-		quick_sort_recursive(array, pivot_index + 1, high);
+	if (left < right)
+	{
+		pivot = split(arr, left, right, size);
+		sort_alg(arr, left, pivot - 1, size);
+		sort_alg(arr, pivot + 1, right, size);
 	}
 }
 
 /**
- * lomuto_partition - Partitions the array using the Lomuto partition scheme
- * @array: The array to be partitioned
- * @low: The lowest index of the partition
- * @high: The highest index of the partition
- *
- * Return: The index of the pivot after partition
- */
-
-int lomuto_partition(int *array, int low, int high)
+  * split - split array
+  * @arr: array
+  * @left: leftmost index
+  * @right: rightmost index
+  * @size: full array size
+  * Return: pivot index
+  */
+int split(int *arr, int left, int right, size_t size)
 {
-	int pivot = array[high];
-	int i = low - 1;
-	int j, temp;
+	int i, i2, pivot, tmp;
 
-	for (j = low; j <= high - 1; j++)
+	pivot = arr[right];
+	i = left;
+
+	for (i2 = left; i2 < right; i2++)
 	{
-		if (array[j] < pivot)
+		if (arr[i2] < pivot)
 		{
+			if (i != i2)
+			{
+				tmp = arr[i2];
+				arr[i2] = arr[i];
+				arr[i] = tmp;
+				print_array(arr, size);
+			}
 			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
-			print_array(array, high - low + 1);
 		}
 	}
-	temp = array[i + 1];
-	array[i + 1] = array[high];
-	array[high] = temp;
-	print_array(array, high - low + 1);
-	return (i + 1);
+	if (arr[i] != arr[right])
+	{
+		tmp = arr[i];
+		arr[i] = arr[right];
+		arr[right] = tmp;
+		print_array(arr, size);
+	}
+
+	return (i);
 }
