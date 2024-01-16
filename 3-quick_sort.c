@@ -53,12 +53,12 @@ int lomuto_partition(int *array, size_t size, int left, int right)
 	{
 		swap_ints(array + above, pivot);
 		print_array(array, size);
+
 	}
 
 	return (above);
 }
 
-/**
  * lomuto_sort - Implement the quicksort algorithm through recursion.
  * @array: An array of integers to sort.
  * @size: The size of the array.
